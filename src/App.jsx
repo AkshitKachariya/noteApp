@@ -19,39 +19,86 @@ const App = () => {
 
   return (
     <>
-      <section className='lg:flex lg:items-center lg:justify-center'>
-        {/* form for add new task */}
-        <div className='lg:w-1/3 w-full h-fit p-7 flex justify-center items-center'>
-          <div className='max-w-lg w-full p-2 bg-[#333]/70 rounded-2xl shadow-2xl shadow-black'>
-            <form action="" className='w-full h-full p-10 bg-[#111]/95 text-white rounded-2xl' onSubmit={(e) => { e.preventDefault(); SubmitForm(); }} >
-              <h1 className='text-center text-2xl font-bold pb-5'>Add Your Task</h1>
-              <div className='text-center flex flex-col py-4 gap-5'>
-                <input type="text" name="" id="" className='py-2 px-4 rounded-md outline-none bg-[#333] border-1 border-[#666]' placeholder='Heading...' value={Heading} onChange={(e) => setHeading(e.target.value)} />
-                <textarea name="" id="" className='py-2 px-4 rounded-md outline-none bg-[#333] border-1 border-[#666] resize-nonez' placeholder='Notes...' rows={8} value={Note} onChange={(e) => setNote(e.target.value)}></textarea>
-                <input type="submit" value="Add Note" className='duration-[0.3s] border-1 py-2 px-4 rounded-md outline-none bg-white text-[#111]/95 border-white font-semibold hover:bg-[#111]/95 hover:text-white hover:border-white cursor-pointer hover:shadow-md hover:shadow-white/10 active:scale-90' />
+      <section className='min-h-screen bg-gradient-to-br from-[#0f172a] via-[#020617] to-[#020617] flex'>
+        <div className='lg:w-[30%] w-full p-10 flex flex-col justify-center bg-white/5 backdrop-blur-2xl border-r border-white/10'>
+          <div className='max-w-md w-full mx-auto'>
+            <div className='mb-10'>
+              <h1 className='text-4xl font-black text-white tracking-tight'>
+                Task<span className='text-blue-500'>Flow</span>
+              </h1>
+              <p className='text-slate-400 mt-2 text-sm'>
+                Manage your daily productivity like a pro 🚀
+              </p>
+            </div>
+            <form
+              className='space-y-6'
+              onSubmit={(e) => { e.preventDefault(); SubmitForm(); }}
+            >
+              <div>
+                <label className='text-xs text-slate-400 ml-1'>Task Title</label>
+                <input
+                  type="text"
+                  placeholder='Enter task title...'
+                  value={Heading}
+                  onChange={(e) => setHeading(e.target.value)}
+                  className='w-full mt-1 px-4 py-3 rounded-xl bg-[#020617] border border-white/10 text-white focus:ring-2 focus:ring-blue-500 outline-none transition'
+                />
               </div>
+              <div>
+                <label className='text-xs text-slate-400 ml-1'>Description</label>
+                <textarea
+                  rows={4}
+                  placeholder='Write task details...'
+                  value={Note}
+                  onChange={(e) => setNote(e.target.value)}
+                  className='w-full mt-1 px-4 py-3 rounded-xl bg-[#020617] border border-white/10 text-white focus:ring-2 focus:ring-blue-500 outline-none transition resize-none'
+                ></textarea>
+              </div>
+              <button
+                type='submit'
+                className='w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 text-white font-semibold tracking-wide shadow-lg shadow-blue-600/20 active:scale-95 transition'
+              >
+                + Add Task
+              </button>
             </form>
           </div>
         </div>
 
-        {/* div for show all tasks */}
-        <div className='lg:w-2/3 w-full h-screen lg:border-l-2 max-lg:border-t-2 border-dashed bg-gray-300 flex flex-wrap items-center justify-center p-8 gap-6 overflow-auto'>
-
-          {
-            Tasks.map((task, id) => {
-              return (
-                <div className='bg-white w-full max-w-78 h-78 rounded-4xl shadow-2xl flex items-end justify-center p-3 relative' key={id}>
-                  <img src="./pin.png" alt="" className='size-10 absolute z-10 top-4' />
-                  <div className='w-full h-60 bg-orange-200 rounded-3xl font-bold p-4'>
-                    <div className='bg-orange-400 w-6 h-6 flex items-center justify-center rounded-full p-3'><h1 className='text-lg'>{id+1}</h1></div>
-                      <h1 className='text-2xl font-semibold text-center py-1'>{task.Heading}</h1>
-                      <p className='text-gray-400 text-lg font-medium py-1'>{task.Note}</p>
+        <div className='lg:w-[70%] w-full p-10 overflow-y-auto'>
+          <div className='flex justify-between items-center mb-10'>
+            <h2 className='text-2xl font-bold text-white'>Your Tasks</h2>
+            <span className='text-sm text-slate-400'>
+              {Tasks.length} Tasks
+            </span>
+          </div>
+          <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
+            {Tasks.map((task, id) => (
+              <div
+                key={id}
+                className='relative group p-6 rounded-3xl bg-white/5 border border-white/10 hover:border-blue-500/40 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10'
+              >
+                <div className='absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-blue-500/10 to-indigo-500/10 blur-xl'></div>
+                <div className='relative z-10'>
+                  <div className='flex items-start justify-between mb-4'>
+                    <span className='text-xs px-3 py-1 rounded-full bg-blue-500/10 text-blue-400'>
+                      Task #{id + 1}
+                    </span>
+                  </div>
+                  <h3 className='text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition'>
+                    {task.Heading}
+                  </h3>
+                  <p className='text-slate-400 text-sm leading-relaxed line-clamp-4'>
+                    {task.Note}
+                  </p>
+                  <div className='flex justify-end items-center mt-6 pt-4 border-t border-white/10'>
+                    <span className='text-xs text-slate-500'>
+                      Created just now
+                    </span>
                   </div>
                 </div>
-              )
-            })
-          }
-
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>
